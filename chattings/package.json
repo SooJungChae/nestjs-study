@@ -22,9 +22,12 @@
   },
   "dependencies": {
     "@nestjs/common": "^9.0.0",
+    "@nestjs/config": "^2.2.0",
     "@nestjs/core": "^9.0.0",
     "@nestjs/platform-express": "^9.0.0",
+    "@nestjs/platform-socket.io": "^9.1.6",
     "@nestjs/typeorm": "^9.0.1",
+    "@nestjs/websockets": "^9.1.6",
     "hbs": "^4.2.0",
     "mysql2": "^2.3.3",
     "reflect-metadata": "^0.1.13",
