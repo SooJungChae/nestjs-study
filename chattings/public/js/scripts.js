@@ -16,8 +16,30 @@ function helloUser() {
   });
 }
 
+const drawChat = (chat) => {
+  const chatBox = document.createElement('div');
+  chatBox.innerText = chat;
+  
+  chatForm.append(chatBox);
+};
+
+const handleSubmit = (e) => {
+  // submit 해서 refresh 되는 걸 방지
+  e.preventDefault();
+  
+  const chatTarget = e.target.elements[0];
+  const chat = chatTarget.value;
+  if (chat === '') return;
+  
+  socket.emit('submit_chat', chat);
+  
+  drawChat(chat);
+  chatTarget.value = '';
+};
+
 function init() {
-  helloUser();
+  // helloUser();
+  chatForm.addEventListener('submit', handleSubmit);
 }
 
 init();
