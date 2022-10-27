@@ -43,7 +43,7 @@ const handleSubmit = (e) => {
 };
 
 function init() {
-  // helloUser();
+  helloUser();
   chatForm.addEventListener('submit', handleSubmit);
 }
 

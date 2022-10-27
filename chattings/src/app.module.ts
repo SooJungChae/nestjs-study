@@ -5,6 +5,8 @@ import {DataSource} from "typeorm";
 import {SocketsModule} from './sockets/sockets.module';
 import {ConfigModule} from '@nestjs/config';
 import {ChatsModule} from './chats/chats.module';
+import { Socket as SocketModel } from './chats/models/sockets.model';
+import { Chatting } from './chats/models/chattings.model';
 
 @Module({
   imports: [
@@ -18,20 +20,16 @@ import {ChatsModule} from './chats/chats.module';
       username: process.env.MYSQL_USER,
       password: process.env.MYSQL_PASSWORD,
       database: 'chat',
-      entities: [],
-      synchronize: true
+      entities: [__dirname + './chats/models/*.model.{ts}'],
+      synchronize: true,
     }),
     SocketsModule,
     ChatsModule
   ],
   controllers: [AppController],
-  providers: [],
 })
 export class AppModule {
   constructor(private dataSource: DataSource) {
 
   }
-  // chattings.model
-  // _id, user, chat
-  // user: _id, id, username
 }
