@@ -5,6 +5,6 @@ import { Socket } from 'socket.io';
 export class ChatsGateway {
   @SubscribeMessage('new_user')
   handleNewUser(@MessageBody() username: string, @ConnectedSocket() socket: Socket) {
-    socket.emit('hello_user', `hello ${username}!`);
+    return username;
   }
 }
