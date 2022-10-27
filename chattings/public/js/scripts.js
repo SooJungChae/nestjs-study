@@ -7,6 +7,11 @@ const chatForm = getElementById('chat_form');
 
 socket.on('user_connected', (username) => {
   console.log(`${username} connected`);
+});
+
+socket.on('new_chat', (data) => {
+  const { chat, username } = data;
+  drawChat(`${username}: ${chat}`);
 })
 
 function helloUser() {
@@ -33,7 +38,7 @@ const handleSubmit = (e) => {
   
   socket.emit('submit_chat', chat);
   
-  drawChat(chat);
+  drawChat(`current user: ${chat}`);
   chatTarget.value = '';
 };
 
