@@ -1,25 +1,41 @@
-import { DeleteDateColumn, Entity, PrimaryGeneratedColumn, UpdateDateColumn } from 'typeorm';
 import { IsNotEmpty, IsString } from 'class-validator';
 import { Socket as SocketModel } from './sockets.model';
+import { Prop, Schema, SchemaFactory } from '@nestjs/mongoose';
+import { Document, SchemaOptions, Types } from 'mongoose';
 
-@Entity()
-export class Chatting {
-  // updatedAt, deletedAt 자동으로 찍기
-  // _id, user, chat
-  @PrimaryGeneratedColumn('uuid')
-  _id: number;
+const options: SchemaOptions = {
+  id: false,
+  timestamps: true,
+};
 
+@Schema(options)
+export class Chatting extends Document {
   // socket id
+  @Prop({ required: true, unique: true })
   @IsNotEmpty()
   @IsString()
   id: string;
 
   @IsNotEmpty()
+  @Prop({
+    required: true,
+    type: {
+      _id: { type: Types.ObjectId, required: true, ref: 'sockets' },
+      id: { type: String },
+      username: { type: String, required: true },
+    },
+  })
   user: SocketModel;
 
-  @UpdateDateColumn()
-  updatedAt: Date;
+  @Prop({
+    required: true,
+  })
+  @IsNotEmpty()
+  @IsString()
+  chat: string;
 
-  @DeleteDateColumn()
-  deletedAt: Date;
+  // @DeleteDateColumn()
+  // deletedAt: Date;
 }
+
+export const ChattingSchema = SchemaFactory.createForClass(Chatting);
