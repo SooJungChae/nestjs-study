@@ -10,13 +10,6 @@ const options: SchemaOptions = {
 
 @Schema(options)
 export class Chatting extends Document {
-  // socket id
-  @Prop({ required: true, unique: true })
-  @IsNotEmpty()
-  @IsString()
-  id: string;
-
-  @IsNotEmpty()
   @Prop({
     required: true,
     type: {
@@ -25,6 +18,7 @@ export class Chatting extends Document {
       username: { type: String, required: true },
     },
   })
+  @IsNotEmpty()
   user: SocketModel;
 
   @Prop({

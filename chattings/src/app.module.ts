@@ -1,35 +1,18 @@
-import {Module} from '@nestjs/common';
-import {AppController} from './app.controller';
-import {TypeOrmModule} from '@nestjs/typeorm';
-import {DataSource} from "typeorm";
-import {SocketsModule} from './sockets/sockets.module';
-import {ConfigModule} from '@nestjs/config';
-import {ChatsModule} from './chats/chats.module';
-import { Socket as SocketModel } from './chats/models/sockets.model';
-import { Chatting } from './chats/models/chattings.model';
+import { Module } from '@nestjs/common';
+import { AppController } from './app.controller';
+import { ConfigModule } from '@nestjs/config';
+import { ChatsModule } from './chats/chats.module';
+import { MongooseModule } from '@nestjs/mongoose';
 
 @Module({
   imports: [
     ConfigModule.forRoot({
       isGlobal: true
     }),
-    TypeOrmModule.forRoot({
-      type: 'mysql',
-      host: process.env.MYSQL_HOST,
-      port: Number(process.env.MYSQL_PORT),
-      username: process.env.MYSQL_USER,
-      password: process.env.MYSQL_PASSWORD,
-      database: 'chat',
-      entities: [__dirname + './chats/models/*.model.{ts}'],
-      synchronize: true,
-    }),
-    SocketsModule,
+    MongooseModule.forRoot(process.env.MONGO_URI),
     ChatsModule
   ],
   controllers: [AppController],
 })
 export class AppModule {
-  constructor(private dataSource: DataSource) {
-
-  }
 }

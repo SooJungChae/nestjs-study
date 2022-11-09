@@ -9,6 +9,10 @@ socket.on('user_connected', (username) => {
   console.log(`${username} connected`);
 });
 
+socket.on('disconnect_user', (username) => {
+  console.log(`${username} bye...`);
+});
+
 socket.on('new_chat', (data) => {
   const { chat, username } = data;
   drawChat(`${username}: ${chat}`);
