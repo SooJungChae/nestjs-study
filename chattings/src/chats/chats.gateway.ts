@@ -39,18 +39,16 @@ export class ChatsGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   @SubscribeMessage('new_user')
   async handleNewUser(@MessageBody() username: string, @ConnectedSocket() socket: Socket) {
-    // TODO: username DB 에 적재
-    const isExistId = await this.findOne(socket.id);
-
-    console.log('isExistId', isExistId);
+    const isExistUsername = await this.socketModel.findOne({ username });
+    const newUserName = isExistUsername ? `${username}${Math.random()}` : username;
 
     await this.socketModel.create({
-      id: isExistId || socket.id,
-      username
+      id: socket.id,
+      username: newUserName
     })
 
-    socket.broadcast.emit('user_connected', username);
-    return username;
+    socket.broadcast.emit('user_connected', newUserName);
+    return newUserName;
   }
 
   @SubscribeMessage('submit_chat')
