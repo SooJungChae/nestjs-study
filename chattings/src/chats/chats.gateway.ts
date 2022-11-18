@@ -1,6 +1,7 @@
 import {
   ConnectedSocket,
-  MessageBody, OnGatewayConnection,
+  MessageBody,
+  OnGatewayConnection,
   OnGatewayDisconnect,
   SubscribeMessage,
   WebSocketGateway,
@@ -27,6 +28,7 @@ export class ChatsGateway implements OnGatewayConnection, OnGatewayDisconnect {
 
   async handleDisconnect(@ConnectedSocket() socket: Socket) {
     const user = await this.findOne(socket.id);
+    console.log('disconnect', user);
 
     if (user) {
       await user.delete();
@@ -40,7 +42,7 @@ export class ChatsGateway implements OnGatewayConnection, OnGatewayDisconnect {
     // TODO: username DB 에 적재
     const isExistId = await this.findOne(socket.id);
 
-    console.log('new_user', isExistId);
+    console.log('isExistId', isExistId);
 
     await this.socketModel.create({
       id: isExistId || socket.id,
